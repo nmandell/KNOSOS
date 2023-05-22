@@ -1,0 +1,4 @@
+SOURCES/*.o
+SOURCES/*genmod.f90
+SOURCES/*.mod
+SOURCES/knosos.x

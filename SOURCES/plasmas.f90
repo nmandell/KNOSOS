@@ -202,6 +202,7 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   CHARACTER*15 nametg2
   CHARACTER*22 nameneo
   CHARACTER*10 nameprof
+  CHARACTER*18 nametrin
   CHARACTER*7 namepoint
   CHARACTER*200 line
   REAL*8 r(ns0),rho(ns0),s_pol(ns0),dummy,q_p(ns0),dqdx_p(ns0),dlnqdx_p(ns0),s(ns0),dqdpsi_p(ns0)
@@ -618,6 +619,44 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
      IF(filename.NE."ne") THEN
         q     =q     *1.0E3      !Temperatures and radial electric field are read in keV and kV/m
         dqdpsi=dqdpsi*1.0E3
+     END IF
+     GOTO 1000
+  END IF
+ 
+  !Trinity3D profile format
+  ! rho, ne (10^20 m^-3), d(log ne)/drho, Ti (keV), d(log Ti)/drho, Te (keV), d(log Te)/drho
+  nametrin="profiles_trin.txt"
+  OPEN(unit=1,file=nametrin,action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametrin,action='read',iostat=iostat)
+  IF(iostat.EQ.0) THEN
+     WRITE(iout,'(" File ",A22," read")') nametrin
+     IF(filename.EQ."ti") THEN
+        nprof=2
+     ELSE IF(filename.EQ."te") THEN
+        nprof=3
+     ELSE IF(filename.EQ."ne") THEN
+        nprof=1
+     END IF
+     READ(1,*) line
+     DO is=1,ns0
+        READ(1,*,iostat=iostat) rho(is),(q_p(is), dlnqdx_p(is),iprof=1,nprof)
+        IF(iostat.NE.0) EXIT
+     END DO
+     ns=is-1
+     CLOSE(1)
+     s=rho*rho
+     DO is=1,ns
+        IF(s(is).EQ.s0) THEN
+           q = q_p(is)
+           dqdpsi=q_p(is)*dlnqdx_p(is)/(2.*SQRT(s0)*atorflux)  !x=rho=r/a
+        END IF
+     END DO
+     IF(filename.NE."ne") THEN
+        q     =q     *1.0E3      !Temperatures and radial electric field are read in keV and kV/m
+        dqdpsi=dqdpsi*1.0E3
+     ELSE
+        q     =q     *10      !Density read in 10^20 m^-3
+        dqdpsi=dqdpsi*10
      END IF
      GOTO 1000
   END IF

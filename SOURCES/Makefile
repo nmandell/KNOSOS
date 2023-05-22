@@ -228,7 +228,7 @@ ifeq ($(CASE), perlmutter)
 #export MKL_DIR=$(spack location -i intel-mkl)/mkl
 
 COMPILER =ftn
-FFLAGS   = -g -cpp -DIPPorNIFS -DMPIandPETSc -O3 --warn-all -fallow-argument-mismatch -ffree-line-length-none -fno-backslash -fdefault-real-8 -fdefault-double-8 -mcmodel=large  # -fbounds-check -fall-intrinsics 
+FFLAGS   = -g -cpp -DIPPorNIFS -DMPIandPETSc -O3 --warn-all -fallow-argument-mismatch -ffree-line-length-none -fno-backslash -fdefault-real-8 -fdefault-double-8 -mcmodel=large -fall-intrinsics -frecursive #-fbounds-check 
 IFLAGS   =-I${NETCDF_DIR}/include/ -I${PETSC_DIR}/include -I${PETSC_DIR}/include/petsc 
 LFLAGS   = -L${NETCDF_DIR}/lib/ -lnetcdff -lnetcdf -L$(PETSC_DIR)/lib -lpetsc
 endif
