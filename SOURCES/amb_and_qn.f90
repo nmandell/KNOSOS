@@ -170,8 +170,8 @@ SUBROUTINE SOLVE_DKE_QN_AMB(it,NBB,ZB,AB,REGB,S,nb,dnbdpsi,Tb,dTbdpsi,Epsi,Gb,Qb
            WRITE(5600+myrank,'(1000(1pe13.5))') SQRT(s),Epsi*psip,& 
                 & 1.602*nb(2)*Tb(2)*Qb(2)/psip,1.602*nb(1)*Tb(1)*Qb(1)/psip,&
                 & (1.602*nb(ib)*Tb(ib)*Qb(ib)/psip,ib=3,nbb),&
-                & nb(2)*Gb(2)/psip,nb(1)*Gb(1)/psip,&
-                & (nb(ib)*Gb(ib)/psip,ib=3,nbb)
+                & 1E19*nb(2)*Gb(2)/psip,1E19*nb(1)*Gb(1)/psip,&
+                & (1E19*nb(ib)*Gb(ib)/psip,ib=3,nbb)
         END IF
      END DO
 
@@ -212,8 +212,8 @@ SUBROUTINE SOLVE_DKE_QN_AMB(it,NBB,ZB,AB,REGB,S,nb,dnbdpsi,Tb,dTbdpsi,Epsi,Gb,Qb
         IF(PREDICTIVE) WRITE(5600+myrank,'(1000(1pe13.5))') SQRT(s),Epsi*psip,& 
                 & 1.602*nb(2)*Tb(2)*Qb(2)/psip,1.602*nb(1)*Tb(1)*Qb(1)/psip,&
                 & (1.602*nb(ib)*Tb(ib)*Qb(ib)/psip,ib=3,nbb),&
-                & nb(2)*Gb(2)/psip,nb(1)*Gb(1)/psip,&
-                & (nb(ib)*Gb(ib)/psip,ib=3,nbb)
+                & 1E19*nb(2)*Gb(2)/psip,1E19*nb(1)*Gb(1)/psip,&
+                & (1E19*nb(ib)*Gb(ib)/psip,ib=3,nbb)
      ELSE IF(nroot.EQ.0) THEN
         Gb=0
         Qb=0
