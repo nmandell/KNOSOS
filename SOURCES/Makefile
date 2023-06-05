@@ -214,23 +214,19 @@ endif
 
 ifeq ($(CASE), perlmutter)
 # for perlmutter, need to load the following modules and environment variables:
-#module load PrgEnv-gnu
+#module load PrgEnv-intel
 #module load cray-hdf5-parallel
 #module load cray-netcdf-hdf5parallel
 #module load e4s
 #module load craype-x86-milan
 #module load cray-fftw
-#spack env activate -V gcc
-#spack load petsc
-#export PETSC_DIR=$(spack location -i petsc)
-#export LD_LIBRARY_PATH=$PETSC_DIR/lib:$LD_LIBRARY_PATH
-#spack load intel-mkl
-#export MKL_DIR=$(spack location -i intel-mkl)/mkl
+#export PETSC_DIR=/global/common/software/m2116/nmandell/petsc
+#export LD_LIBRARY_PATH=$PETSC_DIR/arch-linux-c-debug/lib:$LD_LIBRARY_PATH
 
 COMPILER =ftn
-FFLAGS   = -g -cpp -DIPPorNIFS -DMPIandPETSc -O3 --warn-all -fallow-argument-mismatch -ffree-line-length-none -fno-backslash -fdefault-real-8 -fdefault-double-8 -mcmodel=large -fall-intrinsics -frecursive #-fbounds-check 
-IFLAGS   =-I${NETCDF_DIR}/include/ -I${PETSC_DIR}/include -I${PETSC_DIR}/include/petsc 
-LFLAGS   = -L${NETCDF_DIR}/lib/ -lnetcdff -lnetcdf -L$(PETSC_DIR)/lib -lpetsc
+FFLAGS   = -g -fpp -DIPPorNIFS -DMPIandPETSc -O3 -xHost -shared-intel -warn all -mcmodel large --with-debugging=0 --with-scalar-type=real --with-precision=double
+IFLAGS   =-I${NETCDF_DIR}/include/ -I${PETSC_DIR}/include -I${PETSC_DIR}/include/petsc -I${PETSC_DIR}/arch-opt/include
+LFLAGS   = -L${NETCDF_DIR}/lib/ -lnetcdff -lnetcdf -L$(PETSC_DIR)/arch-opt/lib -lpetsc
 endif
 
 ###### Targets, pre-requisites and commands ######################################
