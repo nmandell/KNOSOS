@@ -646,7 +646,7 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
      CLOSE(1)
      s=rho*rho
      DO is=1,ns
-        IF(s(is).EQ.s0) THEN
+        IF(ABS(s(is)-s0)<1e-3) THEN
            q = q_p(is)
            dqdpsi=q_p(is)*dlnqdx_p(is)/(2.*SQRT(s0)*atorflux)  !x=rho=r/a
         END IF
