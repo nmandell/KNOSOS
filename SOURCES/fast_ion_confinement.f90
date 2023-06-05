@@ -14,7 +14,7 @@ SUBROUTINE CALC_FAST_ION_CONFINEMENT(s,is,ns,nal,nlambda)
 
   USE GLOBAL
   USE KNOSOS_STELLOPT_MOD
-#ifdef IPPorNIFS
+#ifdef MPIandPETSc
   USE petscsys
   USE petscksp
 #endif

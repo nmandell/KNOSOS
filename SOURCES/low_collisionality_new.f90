@@ -111,7 +111,7 @@ SUBROUTINE CALC_LOW_COLLISIONALITY_NANL_NEW(nal,nlambda,jv,Epsi,phi1c,Mbbnm,trMn
 
   USE GLOBAL
   USE KNOSOS_STELLOPT_MOD
-#ifdef IPPorNIFS
+#ifdef MPIandPETSc
   USE petscsys
   USE petscksp
 #endif

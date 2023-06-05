@@ -25,7 +25,7 @@ PROGRAM KNOSOS
 #ifdef MPIandPETSc
   INTEGER ierr
 #endif
-#ifdef IPPorNIFS
+#ifdef MPIandPETSc
 ! INCLUDE "mpif.h"
 #include <petsc/finclude/petscsys.h>
 #endif
