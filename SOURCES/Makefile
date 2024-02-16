@@ -220,7 +220,7 @@ ifeq ($(CASE), perlmutter)
 #module load e4s
 #module load craype-x86-milan
 #module load cray-fftw
-#export PETSC_DIR=/global/common/software/m2116/nmandell/petsc
+#export PETSC_DIR=/global/common/software/m4485/nmandell/petsc
 #export LD_LIBRARY_PATH=$PETSC_DIR/arch-linux-c-debug/lib:$LD_LIBRARY_PATH
 
 COMPILER =ftn
