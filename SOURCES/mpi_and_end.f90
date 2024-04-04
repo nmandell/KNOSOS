@@ -168,7 +168,7 @@ SUBROUTINE END_ALL(serr,parallel)
 
 #endif
 
-  STOP
+  !STOP
   
 END SUBROUTINE END_ALL
 

@@ -240,8 +240,8 @@ SUBROUTINE READ_BOOZMNDATA(s0,boozmndata_read)
   INTEGER iostat,nsval,jsize,js,is0,imn
   REAL*8 aspect_b,rmax_b,rmin_b,betaxis_b
   
-  OPEN(unit=1,file='boozmn.data',form='unformatted',iostat=iostat,action='read')
-  IF(iostat.NE.0) OPEN(unit=1,file='../boozmn.data',form='unformatted',iostat=iostat,action='read')
+  OPEN(unit=1,file='boozmn.data',form='unformatted',iostat=iostat,status='old',action='read')
+  IF(iostat.NE.0) OPEN(unit=1,file='../boozmn.data',form='unformatted',iostat=iostat,status='old',action='read')
   IF(iostat.NE.0) RETURN
   
   boozmndata_read=.TRUE.
@@ -566,8 +566,8 @@ SUBROUTINE READ_BOOZTXT(s0,booztxt_read)
   REAL*8, PARAMETER   :: mu0_o_2pi=2.000000000e-7
   REAL*8, ALLOCATABLE :: pprime(:),sqrtg00(:)
 
-  OPEN(unit=1,file='boozer.txt',iostat=iostat,action='read')
-  IF(iostat.NE.0) OPEN(unit=1,file='../boozer.txt',iostat=iostat,action='read')
+  OPEN(unit=1,file='boozer.txt',iostat=iostat,status='old',action='read')
+  IF(iostat.NE.0) OPEN(unit=1,file='../boozer.txt',iostat=iostat,status='old',action='read')
   IF(iostat.NE.0) RETURN
   booztxt_read=.TRUE.
   WRITE(iout,*) 'File "boozer.txt" found'
@@ -668,8 +668,8 @@ SUBROUTINE READ_DDKESDATA(s0)
        & efield,nzperiod,chip,psip,mpolb,ntorb,nvalsb,borbi,btheta,bzeta,ibbi
   NAMELIST /radius/rad_R,rad_a
 
-  OPEN(unit=1,file='ddkes2.data',form='formatted',action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file='../ddkes2.data',form='formatted',action='read',iostat=iostat)
+  OPEN(unit=1,file='ddkes2.data',form='formatted',status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file='../ddkes2.data',form='formatted',status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      borbic=0
      WRITE(iout,*) 'File "ddkes2.data" found'     
@@ -682,8 +682,8 @@ SUBROUTINE READ_DDKESDATA(s0)
      rad_a=ABS(psip)/borbic(0,0)
      torflux=borbic(0,0)*PI*rad_a*rad_a
      !Read major radius, minor (needed for radial derivatives)
-     OPEN(unit=1,file='input.radius',action='read',iostat=iostat)
-     IF(iostat.NE.0) OPEN(unit=1,file='../input.radius',action='read',iostat=iostat)
+     OPEN(unit=1,file='input.radius',status='old',action='read',iostat=iostat)
+     IF(iostat.NE.0) OPEN(unit=1,file='../input.radius',status='old',action='read',iostat=iostat)
      IF(iostat.EQ.0) THEN
         WRITE(iout,*) 'File "input.radius" found'
         READ(1,nml=radius)
@@ -735,7 +735,7 @@ SUBROUTINE READ_ADDDDKESDATA(addkes_read)
   NAMELIST /dataadd/borbic_add,borbis_add
 
   addkes_read=.FALSE.
-  OPEN(unit=1,file='add_ddkes2.data',form='formatted',iostat=iostat,action='read')
+  OPEN(unit=1,file='add_ddkes2.data',form='formatted',iostat=iostat,status='old',action='read')
   IF(iostat.EQ.0) THEN
      WRITE(iout,*) 'File "add_ddkes2.data" found'
      addkes_read=.TRUE.
@@ -1674,7 +1674,7 @@ SUBROUTINE FIND_3DPOINTS(nz,nt,s,x1,x2,x3)
      IF(iarray.EQ.1) filename="exp1.dat"
      IF(iarray.EQ.2) filename="exp2.dat"
      IF(iarray.GT.2) filename="expn.dat"
-     OPEN(unit=1,file=filename,iostat=iostat,action='read')
+     OPEN(unit=1,file=filename,iostat=iostat,status='old',action='read')
      IF(iostat.EQ.0) THEN
         DR_READ=.TRUE.
         DO iparray=1,nparray 

@@ -96,6 +96,7 @@ PROGRAM KNOSOS
   !End MPI and PETSC
   serr="Simulation complete"
   CALL END_ALL(serr,.TRUE.)
+  CALL EXIT()
 
 END PROGRAM KNOSOS
 

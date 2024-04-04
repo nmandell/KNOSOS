@@ -189,8 +189,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   NEQ2=      .FALSE.
 
   !Read namelist 'model'
-  OPEN(unit=1,file="input.model",form='formatted',action='read',iostat=iostat) 
-  IF(iostat.NE.0) OPEN(unit=1,file="../input.model",form='formatted',action='read',iostat=iostat) 
+  OPEN(unit=1,file="input.model",form='formatted',status='old',action='read',iostat=iostat) 
+  IF(iostat.NE.0) OPEN(unit=1,file="../input.model",form='formatted',status='old',action='read',iostat=iostat) 
   IF (iostat.EQ.0) THEN
 !     IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input.model" found'
      READ (1,nml=model)
@@ -253,8 +253,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   JORBIT=-1
   LJMAP=-0.38   
   !Read namelist 'fastions'
-  OPEN(unit=1,file="input.fastions",form='formatted',action='read',iostat=iostat) 
-  IF(iostat.NE.0) OPEN(unit=1,file="../input.fastions",form='formatted',action='read',iostat=iostat) 
+  OPEN(unit=1,file="input.fastions",form='formatted',status='old',action='read',iostat=iostat) 
+  IF(iostat.NE.0) OPEN(unit=1,file="../input.fastions",form='formatted',status='old',action='read',iostat=iostat) 
   IF (iostat.EQ.0) THEN
      FAST_IONS=.TRUE.
 !     IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input.fastions" found'
@@ -336,8 +336,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   RSEED=.FALSE.!TRUE.
   
   !Read namelist 'parameters'
-  OPEN(unit=1,file="input.parameters",form='formatted',action='read',iostat=iostat) 
-  IF(iostat.NE.0) OPEN(unit=1,file="../input.parameters",form='formatted',action='read',iostat=iostat) 
+  OPEN(unit=1,file="input.parameters",form='formatted',status='old',action='read',iostat=iostat) 
+  IF(iostat.NE.0) OPEN(unit=1,file="../input.parameters",form='formatted',status='old',action='read',iostat=iostat) 
   IF(iostat.EQ.0) THEN
 !     IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input.parameters" found'
      READ (1,nml=parameters)
@@ -378,8 +378,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
      REGB(1:2)=0
      ZB(1)=-1.
      AB(1)=5.48579909E-4
-     OPEN(unit=1,file="input-prof.txt",action='read',iostat=iostat)
-     IF(iostat.NE.0) OPEN(unit=1,file="../input-prof.txt",action='read',iostat=iostat)     
+     OPEN(unit=1,file="input-prof.txt",status='old',action='read',iostat=iostat)
+     IF(iostat.NE.0) OPEN(unit=1,file="../input-prof.txt",status='old',action='read',iostat=iostat)     
      IF(iostat.EQ.0) THEN
 !        IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input-prof.txt" found'
         DO iline=1,7
@@ -430,8 +430,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   !-------------------------------------------------------------------------------------------
 
   !Read namelist 'surfaces'
-  OPEN(unit=1,file="input.surfaces",form='formatted',action='read',iostat=iostat) 
-  IF(iostat.NE.0) OPEN(unit=1,file="../input.surfaces",form='formatted',action='read',iostat=iostat) 
+  OPEN(unit=1,file="input.surfaces",form='formatted',status='old',action='read',iostat=iostat) 
+  IF(iostat.NE.0) OPEN(unit=1,file="../input.surfaces",form='formatted',status='old',action='read',iostat=iostat) 
   IF (iostat.EQ.0) THEN
 !     IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input.surfaces" found'
      READ (1,nml=surfaces)
@@ -449,8 +449,8 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   !-------------------------------------------------------------------------------------------
 
   !Read namelist 'species'
-  OPEN(unit=1,file="input.species",form='formatted',action='read',iostat=iostat) 
-  IF(iostat.NE.0) OPEN(unit=1,file="../input.species",form='formatted',action='read',iostat=iostat) 
+  OPEN(unit=1,file="input.species",form='formatted',status='old',action='read',iostat=iostat) 
+  IF(iostat.NE.0) OPEN(unit=1,file="../input.species",form='formatted',status='old',action='read',iostat=iostat) 
   IF (iostat.EQ.0) THEN
 !     IF(myrank.EQ.0) WRITE(ioutt,*) 'File "input.species" found'
      READ (1,nml=species)
@@ -493,7 +493,7 @@ SUBROUTINE READ_INPUT(ns,s,nbb,Zb,Ab,regb,fracb)
   ELSE IF(PREDICTIVE) THEN
      SOLVE_QN=.FALSE.
      TANG_VM=.FALSE.
-     NER=81
+     NER=41
 !     ER_ROOT  = 1
   ELSE IF(NEOTRANSP.OR.PENTA.OR.KNOSOS_STELLOPT) THEN
      CALC_DB=.TRUE.

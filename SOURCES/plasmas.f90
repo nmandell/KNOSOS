@@ -109,12 +109,12 @@ SUBROUTINE READ_PLASMAS(nbb,fracb,s0,ZB,AB,nb,dnbdpsi,Tb,dTbdpsi,Epsi)
   !------------------------------------------------------------------------------------------- 
   IF(JPP) THEN
 
-     OPEN(unit=1,file='ne_in.d',action='read',iostat=iostat)
+     OPEN(unit=1,file='ne_in.d',status='old',action='read',iostat=iostat)
      READ(1,*,iostat=iostat) nb(1)
      nb(2)=nb(1)
      dnbdpsi(1:2)=-nb(1:2)/(2.*SQRT(s0)*atorflux)
      CLOSE(1)
-     OPEN(unit=1,file='ti_in.d',action='read',iostat=iostat)
+     OPEN(unit=1,file='ti_in.d',status='old',action='read',iostat=iostat)
      READ(1,*,iostat=iostat) Tb(2)
      Tb(1)=Tb(2)
      dTbdpsi(1:2)=0
@@ -141,7 +141,7 @@ SUBROUTINE READ_PLASMAS(nbb,fracb,s0,ZB,AB,nb,dnbdpsi,Tb,dTbdpsi,Epsi)
      dTbdpsi(1)  =-Tb(1)  *6*rad_a/rad_R*(1-tanhh*tanhh)
  
      Epsi=0
-     OPEN(unit=1,file='ph_in.d',action='read',iostat=iostat)
+     OPEN(unit=1,file='ph_in.d',status='old',action='read',iostat=iostat)
      IF(iostat.EQ.0) THEN
         READ(1,*) varphi0
         READ(1,*) varphi0,Epsi
@@ -213,8 +213,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !TASK3D profile format
   nametask3d2="input-prof.txt"
-  OPEN(unit=1,file=nametask3d2,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametask3d2,action='read',iostat=iostat)
+  OPEN(unit=1,file=nametask3d2,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametask3d2,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') nametask3d2
      IF(filename.EQ."ti") THEN
@@ -244,8 +244,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   
   !TASK3D profile format
   nametask3d="prof-file.txt"
-  OPEN(unit=1,file=nametask3d,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametask3d,action='read',iostat=iostat)
+  OPEN(unit=1,file=nametask3d,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametask3d,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') nametask3d
      READ(1,*) line
@@ -284,8 +284,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !GRAZ profile format
   namegraz="profiles.txt"
-  OPEN(unit=1,file=namegraz,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//namegraz,action='read',iostat=iostat)
+  OPEN(unit=1,file=namegraz,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//namegraz,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') namegraz
      READ(1,*) line
@@ -329,8 +329,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   
   !GRAZ profile format
   namegraz2="profiles2.txt"
-  OPEN(unit=1,file=namegraz2,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//namegraz2,action='read',iostat=iostat)
+  OPEN(unit=1,file=namegraz2,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//namegraz2,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') namegraz2
      READ(1,*) line
@@ -370,8 +370,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   
   !TG profile format
   nametg="profiles.TG"
-  OPEN(unit=1,file=nametg,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametg,action='read',iostat=iostat)
+  OPEN(unit=1,file=nametg,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametg,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') nametg
      IF(filename.EQ."ti") THEN
@@ -420,8 +420,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !DR@W7-X profile format
   namedr="profiles_DR.txt"
-  OPEN(unit=1,file=namedr,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//namedr,action='read',iostat=iostat)
+  OPEN(unit=1,file=namedr,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//namedr,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') namedr
      IF(filename.EQ."ti") THEN
@@ -458,8 +458,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   
   !TG profile format
   nametg2="profiles_TG.txt"
-  OPEN(unit=1,file=nametg2,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametg2,action='read',iostat=iostat)
+  OPEN(unit=1,file=nametg2,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametg2,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') nametg2
      IF(filename.EQ."ti") THEN
@@ -497,8 +497,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !neotransp profile format
   nameneo="profiles_neotransp.dat"
-  OPEN(unit=1,file=nameneo,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameneo,action='read',iostat=iostat)
+  OPEN(unit=1,file=nameneo,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameneo,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') nameneo
      IF(filename.EQ."ti") THEN
@@ -540,8 +540,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !EUTERPE profile format
   nameeut="profiles.d"
-  OPEN(unit=1,file=nameeut,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameeut,action='read',iostat=iostat)
+  OPEN(unit=1,file=nameeut,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameeut,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0.AND.filename.NE."ph") THEN
      WRITE(iout,'(" File ",A22," read")') nameeut
      IF(filename.EQ."ti") THEN
@@ -572,8 +572,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 !     GOTO 1000    
   ELSE IF (filename.EQ."ph") THEN
      nameeut="er_s.dat"
-     OPEN(unit=1,file=nameeut,action='read',iostat=iostat)
-     IF(iostat.NE.0) OPEN(unit=1,file="../"//nameeut,action='read',iostat=iostat)
+     OPEN(unit=1,file=nameeut,status='old',action='read',iostat=iostat)
+     IF(iostat.NE.0) OPEN(unit=1,file="../"//nameeut,status='old',action='read',iostat=iostat)
      IF(iostat.EQ.0) THEN
         WRITE(iout,'(" File ",A22," read")') nameeut
         READ(1,*) line
@@ -595,8 +595,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !neprof profile format
   nameprof=filename//"prof_r.d"
-  OPEN(unit=1,file=nameprof,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameprof,action='read',iostat=iostat)
+  OPEN(unit=1,file=nameprof,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nameprof,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') nameprof
      READ(1,*) line
@@ -626,8 +626,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
   !Trinity3D profile format
   ! rho, ne (10^20 m^-3), d(log ne)/drho, Ti (keV), d(log Ti)/drho, Te (keV), d(log Te)/drho
   nametrin="profiles_trin.txt"
-  OPEN(unit=1,file=nametrin,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametrin,action='read',iostat=iostat)
+  OPEN(unit=1,file=nametrin,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//nametrin,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') nametrin
      IF(filename.EQ."ti") THEN
@@ -663,8 +663,8 @@ SUBROUTINE READ_PROFILE(s0,filename,q,dqdpsi,nbb)
 
   !Local values
   namepoint=filename//"_in.d"
-  OPEN(unit=1,file=namepoint,action='read',iostat=iostat)
-  IF(iostat.NE.0) OPEN(unit=1,file="../"//namepoint,action='read',iostat=iostat)
+  OPEN(unit=1,file=namepoint,status='old',action='read',iostat=iostat)
+  IF(iostat.NE.0) OPEN(unit=1,file="../"//namepoint,status='old',action='read',iostat=iostat)
   IF(iostat.EQ.0) THEN
      WRITE(iout,'(" File ",A22," read")') namepoint
      READ(1,*) line

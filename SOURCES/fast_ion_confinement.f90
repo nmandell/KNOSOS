@@ -650,7 +650,7 @@ SUBROUTINE FAST_ION_JMAP(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
 
   USE GLOBAL
   USE KNOSOS_STELLOPT_MOD  
-  use, intrinsic :: ieee_arithmetic, only: IEEE_Value, IEEE_QUIET_NAN
+  use, intrinsic :: ieee_arithmetic, only: IEEE_Value, IEEE_QUIET_NAN, IEEE_IS_NAN
   use, intrinsic :: iso_fortran_env, only: real32
   IMPLICIT NONE
   !Input
@@ -820,10 +820,10 @@ SUBROUTINE FAST_ION_JMAP(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
            CALL LAGRANGE(thetape(1:tnalpha,1),BIe(ig,1:tnalpha),tnalpha,&
                 & va(ial),BIi(ig),0)
 !           dummy=BIi(ig)
-!           IF(ISNAN(dummy)) BIi(ig)=0
+!           IF(IEEE_IS_NAN(dummy)) BIi(ig)=0
            BIg(myrank+1,ial,ig)=BIi(ig)
            CALL MPI_ALLREDUCE(MPI_IN_PLACE,BIg(:,ial,ig),ns,MPI_REAL8,MPI_SUM,MPI_COMM_WORLD,ierr)
-!           IF(ISNAN(dummy)) BIi(ig)=dummy
+!           IF(IEEE_IS_NAN(dummy)) BIi(ig)=dummy
         END DO
 
         IF(JMAP) THEN
@@ -873,7 +873,7 @@ SUBROUTINE FAST_ION_JMAP(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
               dsdt=fa0*BIg(is0,ia0,3)+fa1*BIg(is0,ia1,3)
               dadt=fa0*BIg(is0,ia0,4)+fa1*BIg(is0,ia1,4)
               Jsa =fa0*BIg(is0,ia0,6)+fa1*BIg(is0,ia1,6)
-              IF(ISNAN(Jsa)) WRITE(iout,*) 'fa',is0,ia0,ia1,fa0,fa1,BIg(is0,ia0,6),BIg(is0,ia1,6)
+              IF(IEEE_IS_NAN(Jsa)) WRITE(iout,*) 'fa',is0,ia0,ia1,fa0,fa1,BIg(is0,ia0,6),BIg(is0,ia1,6)
                  
            ELSE
               IF(is1.GT.ns) THEN
@@ -889,7 +889,7 @@ SUBROUTINE FAST_ION_JMAP(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
                  dadt=fs0*BIg(is0,ia0,4)+fs1*BIg(is1,ia0,4)
                  Jsa =fs0*BIg(is0,ia0,6)+fs1*BIg(is1,ia0,6)
               END IF
-              IF(ISNAN(Jsa)) WRITE(iout,*) 'fs',ia0,is0,is1,fs0,fs1,BIg(is0,ia0,6),BIg(is1,ia0,6)
+              IF(IEEE_IS_NAN(Jsa)) WRITE(iout,*) 'fs',ia0,is0,is1,fs0,fs1,BIg(is0,ia0,6),BIg(is1,ia0,6)
            END IF
 
            dsda=dsdt/dadt
@@ -1009,6 +1009,7 @@ SUBROUTINE FAST_ION_ORBITS(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
 
   USE GLOBAL
   USE KNOSOS_STELLOPT_MOD  
+  use, intrinsic :: ieee_arithmetic, only: IEEE_Value, IEEE_QUIET_NAN, IEEE_IS_NAN
   IMPLICIT NONE
   !Input
   INTEGER is,ns,nalpha,nalphab,nlambda,i_p(nlambda,nalpha,nalphab),npoint
@@ -1128,11 +1129,11 @@ SUBROUTINE FAST_ION_ORBITS(vs,is,ns,nalpha,nalphab,nlambda,lambda,i_p,npoint,&
                       & s_new,alpha_new,theta_new,zeta_new,zl_new,tl_new,zr_new,tr_new,dB_new,J_new,&
                       & transition,J0,dJds_new,dJda_new,dsdt_new,dadt_new,dsda_new,ptran_new,dban_new)
 
-                 IF((transition.OR.ISNAN(dsdt_new)).AND.fd.LT.1000) THEN
+                 IF((transition.OR.IEEE_IS_NAN(dsdt_new)).AND.fd.LT.1000) THEN
                     IF(transition) stochastic=.TRUE.
-                    IF(.NOT.ISNAN(dsdt_new).AND.&
+                    IF(.NOT.IEEE_IS_NAN(dsdt_new).AND.&
                          &(fd.GT.REAL(FDMAX).OR.&
-                         & ISNAN(dsdt_old).OR.&
+                         & IEEE_IS_NAN(dsdt_old).OR.&
                          & (fd.GT.1.AND.CONVERGED_Q(ptran_new,ptran,PREC_TRANS).AND.&
                          & CONVERGED_Q(J_new,J_trans,PREC_BINT)))) THEN
 !                       EXIT

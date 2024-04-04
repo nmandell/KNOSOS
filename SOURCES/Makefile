@@ -63,6 +63,9 @@ endif
 ifeq ($(NERSC_HOST), perlmutter)
 CASE=perlmutter
 endif
+ifeq ($(GK_SYSTEM), summit)
+CASE=summit
+endif
 
 ###### if running at marconi #####################################
 
@@ -227,6 +230,26 @@ COMPILER =ftn
 FFLAGS   = -g -fpp -DIPPorNIFS -DMPIandPETSc -O3 -xHost -shared-intel -warn all -mcmodel large --with-debugging=0 --with-scalar-type=real --with-precision=double
 IFLAGS   =-I${NETCDF_DIR}/include/ -I${PETSC_DIR}/include -I${PETSC_DIR}/include/petsc -I${PETSC_DIR}/arch-opt/include
 LFLAGS   = -L${NETCDF_DIR}/lib/ -lnetcdff -lnetcdf -L$(PETSC_DIR)/arch-opt/lib -lpetsc
+endif
+
+ifeq ($(CASE), summit)
+#export GK_SYSTEM=summit
+#module load nvhpc/23.9
+#module load hdf5
+#module load netcdf-fortran
+#module load netlib-lapack
+#module load fftw
+#export LD_LIBRARY_PATH=/gpfs/alpine2/fus161/proj-shared/petsc/arch-opt/lib:$LD_LIBRARY_PATH
+
+COMPILER=mpif90
+FFLAGS = -g -cpp -DIPPorNIFS -DMPIandPETSc -O3 # -fbounds-check -ffree-line-length-none
+NETCDF_ROOT = ${OLCF_NETCDF_FORTRAN_ROOT}
+HDF5_ROOT = ${OLCF_HDF5_ROOT}
+NETCDF_INC = -I ${NETCDF_ROOT}/include
+NETCDF_LIB = -L ${NETCDF_ROOT}/lib -lnetcdff -L${HDF5_ROOT}/lib -lhdf5_hl -lhdf5 -lm -lz -lbz2 -lxml2 -lcurl
+PETSC_DIR = /gpfs/alpine2/fus161/proj-shared/petsc
+IFLAGS = ${NETCDF_INC} -I${PETSC_DIR}/include -I${PETSC_DIR}/include/petsc -I${PETSC_DIR}/arch-opt/include -I$(OLCF_NETLIB_LAPACK_ROOT)/include -I$(OLCF_NETLIB_FFTW_ROOT)/include
+LFLAGS = ${NETCDF_LIB} -L$(PETSC_DIR)/arch-opt/lib -lpetsc -L$(OLCF_NETLIB_LAPACK_ROOT)/lib -llapack -lblas -L$(OLCF_NETLIB_FFTW_ROOT)/lib -lfftw3
 endif
 
 ###### Targets, pre-requisites and commands ######################################
